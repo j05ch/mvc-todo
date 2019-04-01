@@ -18,12 +18,16 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'React, Webpack, Babel, and Typescript️',
+            title: `Joschi's To-Do️`,
             template: 'src/index.html'
         })
     ]
