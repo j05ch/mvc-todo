@@ -1,6 +1,7 @@
 import * as React from 'react';
+import './styles.css';
 
-interface TaskList {
+export interface TaskList {
     id: number,
     title: string,
     createdAt: string,
@@ -8,7 +9,9 @@ interface TaskList {
 }
 
 interface Props {
-    taskLists: Array<TaskList>;
+    taskLists: Array<TaskList>,
+    chooseList: (id: number) => void,
+    chosenList: number
 }
 
 export default class TaskListPicker extends React.Component<Props, {}> {
@@ -16,7 +19,11 @@ export default class TaskListPicker extends React.Component<Props, {}> {
         return <div>
             <h2>List</h2>
             {
-                this.props.taskLists.map(taskList => <p>{taskList.title}</p>)
+                this.props.taskLists.map(taskList =>
+                    <p
+                        className={taskList.id === this.props.chosenList ? 'chosen-list' : ''}
+                        onClick={() => {this.props.chooseList(taskList.id)}}>{taskList.title}
+                    </p>)
             }
         </div>
     }

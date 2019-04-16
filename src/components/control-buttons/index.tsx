@@ -1,7 +1,15 @@
 import * as React from 'react';
 
-export default class ControlButtons extends React.Component<{}, {}> {
+interface Props {
+    checkTask: () => void,
+    // deleteTask: (e: any) => void
+}
+
+export default class ControlButtons extends React.Component<Props, {}> {
     render(): React.ReactNode {
-        return <span><button>Done</button><button>Delete</button></span>
+        return <span>
+            <button onClick={this.props.checkTask}>Done</button>
+            {/*<button>Delete</button>*/}
+        </span>
     }
 };

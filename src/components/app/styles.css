@@ -14,12 +14,10 @@ body {
 
 .task-list-picker {
     background-color: deepskyblue;
-    padding: 2em;
     height: 100vh;
 }
 
 .task-picker {
     background-color: coral;
-    padding: 1em;
     height: 100vh;
 }
