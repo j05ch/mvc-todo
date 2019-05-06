@@ -6,7 +6,7 @@ import './styles.css';
 interface State {
     tasks: Array<TaskItem>,
     chosenList: number,
-    taskLists: any
+    taskLists: Array<TaskList>
 }
 
 export default class App extends React.Component<{}, State> {
@@ -17,42 +17,41 @@ export default class App extends React.Component<{}, State> {
         taskLists: []
     };
 
-    chooseList(id: number) {
-        if (id === 1) {
-            this.setState(
-                {
-                    tasks: this.tasksMock1
-                })
-        } else if (id === 2) {
-            this.setState({tasks: this.tasksMock2})
-        }
-
-        this.setState({chosenList: id})
+    async chooseList(id: number): Promise<void> {
+        await this.fetchTasks(id);
+        await this.setState({chosenList: id})
     }
 
-    fetchTaskLists(): Promise<JSON> {
-        return fetch('https://mvc-todo-api.herokuapp.com/task-lists', { mode: 'no-cors'})
-            .then(res => res.json());
+    async fetchTaskLists(): Promise<void> {
+        const res = await fetch('https://mvc-todo-api.herokuapp.com/task-lists');
+        const json = await res.json();
+        this.setState({taskLists: json});
+    }
+
+    async fetchTasks(id: number): Promise<void> {
+                const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${id}/tasks`);
+                const json = await res.json();
+                this.setState({tasks: json});
     }
 
     componentDidMount(): void {
-        this.setState({taskLists: this.fetchTaskLists()})
+        this.fetchTaskLists();
     }
 
     render(): React.ReactNode {
         const tasks = this.state.tasks;
         return <div className="container">
             <div className="task-list-picker">
-                <TaskListPicker taskLists={this.taskListsMock} chooseList={this.chooseList.bind(this)}
+                <TaskListPicker taskLists={this.state.taskLists} chooseList={this.chooseList.bind(this)}
                                 chosenList={this.state.chosenList} />
             </div>
             <div className="task-picker">
-                <TaskPicker tasks={tasks} />
+                <TaskPicker tasks={tasks} taskListId={this.state.chosenList} fetchTasks={this.fetchTasks.bind(this)} />
             </div>
         </div>
     }
 
-    // Mpcks:
+    // Mocks:
 
     tasksMock1 = [
         {

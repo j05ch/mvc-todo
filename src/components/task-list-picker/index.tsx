@@ -19,8 +19,8 @@ export default class TaskListPicker extends React.Component<Props, {}> {
         return <div>
             <h2>List</h2>
             {
-                this.props.taskLists.map(taskList =>
-                    <p
+                this.props.taskLists.map((taskList: TaskList) =>
+                    <p key={taskList.id}
                         className={taskList.id === this.props.chosenList ? 'chosen-list' : ''}
                         onClick={() => {this.props.chooseList(taskList.id)}}>{taskList.title}
                     </p>)
