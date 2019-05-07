@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Task from '../task';
+import TaskInputField from "../task-input-field";
 
 export interface TaskItem {
     id: number,
