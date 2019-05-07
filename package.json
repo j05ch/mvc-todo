@@ -1,7 +1,7 @@
 {
   "scripts": {
     "check-types": "tsc",
-    "start": "webpack-dev-server --mode development --port \"${PORT:-8080}\" --host 0.0.0.0",
+    "start": "webpack-dev-server --mode development --port \"${PORT:-8080}\" --disable-host-check --host 0.0.0.0",
     "build": "webpack --mode production",
     "lint": "eslint ./ --ext .js,.ts,.tsx"
   },
