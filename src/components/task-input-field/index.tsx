@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './styles.css';
 
 interface Props {
     tasklistId: number,
@@ -6,38 +7,66 @@ interface Props {
 }
 
 interface State {
-    value: number
+    taskValue?: string,
+    taskDescription?: string
 }
 
 export default class TaskInputField extends React.Component<Props, State> {
     readonly state = {
-        value: 0
+        taskValue: '',
+        taskDescription: ''
     };
 
     async addTask(): Promise<any> {
         const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${this.props.tasklistId}/tasks/`, {
-            method: 'post'
+            method: 'POST',
+            body: JSON.stringify({
+                title: this.state.taskValue,
+                description: this.state.taskDescription,
+                status: 'no'
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
         this.props.fetchTasks(this.props.tasklistId);
         return await res.json();
     }
 
     handleChange(event: any) {
-        this.setState({value: event.target.value});
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({[name]: value});
     }
 
     handleSubmit(event: any) {
-        alert('A name was submitted: ' + this.state.value);
+        this.addTask();
+        this.setState({
+            taskValue: '',
+            taskDescription: ''
+        });
         event.preventDefault();
     }
 
     render(): React.ReactNode {
-        return <form onSubmit={() => this.handleSubmit}>
-            <label>
-                Name:
-                <input type="text" value={this.state.value} onChange={() => this.handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
+        return <form onSubmit={(e) => this.handleSubmit(e)}>
+            <input className="input-field"
+                   name="taskValue"
+                   type="text"
+                   value={this.state.taskValue}
+                   onChange={(e) => this.handleChange(e)}
+            />
+            <input className="input-field"
+                   name="taskDescription"
+                   type="text"
+                   value={this.state.taskDescription}
+                   onChange={(e) => this.handleChange(e)}
+            />
+            <input className="submit-btn"
+                   type="submit"
+                   value="Add task"
+            />
         </form>
     }
 };

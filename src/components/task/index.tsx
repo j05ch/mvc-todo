@@ -32,7 +32,7 @@ export default class Task extends React.Component<Props, State> {
 
     async deleteTask(): Promise<any> {
         const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${this.props.tasklistId}/tasks/${this.props.taskId}`, {
-            method: 'delete'
+            method: 'DELETE'
         });
         this.props.fetchTasks(this.props.tasklistId);
         return await res.json();

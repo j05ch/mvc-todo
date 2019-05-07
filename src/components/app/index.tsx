@@ -43,52 +43,11 @@ export default class App extends React.Component<{}, State> {
         return <div className="container">
             <div className="task-list-picker">
                 <TaskListPicker taskLists={this.state.taskLists} chooseList={this.chooseList.bind(this)}
-                                chosenList={this.state.chosenList} />
+                                chosenList={this.state.chosenList} fetchTaskLists={this.fetchTaskLists.bind(this)} />
             </div>
             <div className="task-picker">
                 <TaskPicker tasks={tasks} taskListId={this.state.chosenList} fetchTasks={this.fetchTasks.bind(this)} />
             </div>
         </div>
     }
-
-    // Mocks:
-
-    tasksMock1 = [
-        {
-            "id": 1,
-            "title": "Wohnzimmer",
-            "description": "saugen",
-            "status": "no",
-            "createdAt": "2019-04-10T13:12:12.417Z",
-            "updatedAt": "2019-04-10T13:12:12.417Z",
-            "taskListId": 1
-        },
-        {
-            "id": 2,
-            "title": "Schlafzimmer",
-            "description": "lüften",
-            "status": "no",
-            "createdAt": "2019-04-10T13:12:29.656Z",
-            "updatedAt": "2019-04-10T13:12:29.656Z",
-            "taskListId": 1
-        }
-    ];
-
-    tasksMock2 = [];
-
-    taskListsMock = [
-        {
-            "id": 1,
-            "title": "Putzen",
-            "createdAt": "2019-04-10T13:11:15.946Z",
-            "updatedAt": "2019-04-10T13:11:15.946Z"
-        },
-        {
-            "id": 2,
-            "title": "Einkaufen",
-            "createdAt": "2019-04-10T13:23:47.249Z",
-            "updatedAt": "2019-04-10T13:23:47.249Z"
-        }
-    ];
-
 }

@@ -15,9 +15,11 @@ body {
 .task-list-picker {
     background-color: deepskyblue;
     height: 100vh;
+    width: 300px;
 }
 
 .task-picker {
     background-color: coral;
     height: 100vh;
+    width: 300px;
 }
