@@ -49,6 +49,7 @@ export default class TaskListInputField extends React.Component<Props, State> {
                    name="taskListValue"
                    type="text" value={this.state.taskListValue}
                    onChange={(e) => this.handleChange(e)}
+                   placeholder="Task list"
             />
             <input className="submit-btn"
                    type="submit"
