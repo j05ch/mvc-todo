@@ -25,6 +25,7 @@ export default class App extends React.Component<{}, State> {
     async fetchTaskLists(): Promise<void> {
         const res = await fetch('https://mvc-todo-api.herokuapp.com/task-lists');
         const json = await res.json();
+        this.setState({chosenList: 0});
         this.setState({taskLists: json});
     }
 

@@ -22,7 +22,6 @@ export default class TaskListPicker extends React.Component<Props, {}> {
         const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${id}`, {
             method: 'DELETE'
         });
-        this.props.chooseList(0);
         await this.props.fetchTaskLists();
         return await res.json();
     }
