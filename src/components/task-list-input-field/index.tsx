@@ -24,7 +24,7 @@ export default class TaskListInputField extends React.Component<Props, State> {
                 'Content-Type': 'application/json'
             }
         });
-        this.props.fetchTaskLists();
+        await this.props.fetchTaskLists();
         return await res.json();
     }
 
