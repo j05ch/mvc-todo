@@ -23,10 +23,22 @@ export default class TaskPicker extends React.Component<Props, {}> {
         return <>
             <h2>Task</h2>
             {
-                this.props.taskListId !== 0 && this.props.tasks.map(task => <Task task={task} key={task.id} taskId={task.id} tasklistId={this.props.taskListId} fetchTasks={this.props.fetchTasks} />)
+                this.props.taskListId !== 0 && this.props.tasks.map(
+                    task =>
+                    <Task
+                        task={task}
+                        key={task.id}
+                        taskId={task.id}
+                        tasklistId={this.props.taskListId}
+                        fetchTasks={this.props.fetchTasks}
+                    />
+                    )
             }
             {
-                this.props.taskListId !== 0 && <TaskInputField tasklistId={this.props.taskListId} fetchTasks={this.props.fetchTasks} />
+                this.props.taskListId !== 0 && <TaskInputField
+                    tasklistId={this.props.taskListId}
+                    fetchTasks={this.props.fetchTasks}
+                />
             }
         </>
     }

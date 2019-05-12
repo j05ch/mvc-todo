@@ -1,2 +1,2 @@
-# react-webpack-babel-typescipt
-Minimum React, Webpack, and Babel project (TypeScript).
+# MVC-Todo
+Todo list front end.
