@@ -4,7 +4,7 @@
     "start": "webpack-dev-server --mode development --port \"${PORT:-8080}\" --disable-host-check --host 0.0.0.0",
     "build": "webpack --mode production",
     "lint": "eslint ./ --ext .js,.ts,.tsx",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@types/node-fetch": "^2.3.2",
