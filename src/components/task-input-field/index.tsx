@@ -65,7 +65,7 @@ export default class TaskInputField extends React.Component<Props, State> {
                    onChange={(e) => this.handleChange(e)}
                    placeholder="Description"
             />
-            <input className="submit-btn"
+            <input className="submit-btn btn btn-primary"
                    type="submit"
                    value="Add task"
             />

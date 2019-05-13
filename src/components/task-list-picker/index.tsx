@@ -40,6 +40,7 @@ export default class TaskListPicker extends React.Component<Props, {}> {
                        }>
                         {taskList.title}
                         <button
+                            className="btn btn-dark"
                             onClick={() => this.deleteTaskList(taskList.id)}>
                             Delete
                         </button>
