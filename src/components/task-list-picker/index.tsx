@@ -22,8 +22,9 @@ export default class TaskListPicker extends React.Component<Props, {}> {
         const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${id}`, {
             method: 'DELETE'
         });
-        await this.props.fetchTaskLists();
-        return await res.json();
+        // await this.props.fetchTaskLists();
+        return await res.json()
+            .then(() => this.props.fetchTaskLists());
     }
 
     render(): React.ReactNode {
@@ -41,7 +42,10 @@ export default class TaskListPicker extends React.Component<Props, {}> {
                         {taskList.title}
                         <button
                             className="btn btn-dark"
-                            onClick={() => this.deleteTaskList(taskList.id)}>
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                this.deleteTaskList(taskList.id);
+                            }}>
                             Delete
                         </button>
                     </p>)
