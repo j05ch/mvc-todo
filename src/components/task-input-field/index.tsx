@@ -23,7 +23,7 @@ export default class TaskInputField extends React.Component<Props, State> {
             body: JSON.stringify({
                 title: this.state.taskValue,
                 description: this.state.taskDescription,
-                status: 'no'
+                status: 'open'
             }),
             headers: {
                 'Content-Type': 'application/json'
