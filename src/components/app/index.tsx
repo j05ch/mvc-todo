@@ -17,29 +17,33 @@ export default class App extends React.Component<{}, State> {
         taskLists: []
     };
 
+    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+
     async chooseList(id: number): Promise<void> {
         await this.fetchTasks(id);
         await this.setState({chosenList: id})
     }
 
     async fetchTaskLists(): Promise<void> {
-        const res = await fetch('https://mvc-todo-api.herokuapp.com/task-lists');
+        const res = await fetch(`${this.url}/task-lists`);
         const json = await res.json();
         this.setState({chosenList: 0});
         this.setState({taskLists: json});
     }
 
     async fetchTasks(id: number): Promise<void> {
-        const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${id}/tasks`);
+        const res = await fetch(`${this.url}/task-lists/${id}/tasks`);
         const json = await res.json();
         this.setState({tasks: json});
     }
 
     componentDidMount(): void {
         this.fetchTaskLists();
+        console.log(this.url)
     }
 
     render(): React.ReactNode {
+        console.log(process.env.NODE_ENV);
         const tasks = this.state.tasks;
         return <div className="container">
             <div className="task-list-picker">

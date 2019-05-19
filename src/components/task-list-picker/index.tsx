@@ -18,11 +18,12 @@ interface Props {
 
 export default class TaskListPicker extends React.Component<Props, {}> {
 
+    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+
     async deleteTaskList(id: number): Promise<any> {
-        const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${id}`, {
+        const res = await fetch(`${this.url}/task-lists/${id}`, {
             method: 'DELETE'
         });
-        // await this.props.fetchTaskLists();
         return await res.json()
             .then(() => this.props.fetchTaskLists());
     }

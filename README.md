@@ -1,8 +1,10 @@
 # MVC-Todo
-Todo list frontend in React.
+Todo list frontend in React. Works together with my MVC-Todo-API.
 
 Install with _yarn install_.
 
-Start Webpack dev server with _yarn dev_.
+Start Webpack dev server with _yarn dev_
 
-Build with _yarn start_.
+or
+
+build und run with _yarn start_.

@@ -17,8 +17,10 @@ export default class TaskInputField extends React.Component<Props, State> {
         taskDescription: ''
     };
 
+    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+
     async addTask(): Promise<any> {
-        const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${this.props.tasklistId}/tasks/`, {
+        const res = await fetch(`${this.url}/task-lists/${this.props.tasklistId}/tasks/`, {
             method: 'POST',
             body: JSON.stringify({
                 title: this.state.taskValue,

@@ -22,6 +22,8 @@ export default class Task extends React.Component<Props, State> {
         buttonText: 'Done'
     };
 
+    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+
     switchChecked(): void {
         this.setState({
                 isChecked: !this.state.isChecked,
@@ -31,7 +33,7 @@ export default class Task extends React.Component<Props, State> {
     }
 
     async deleteTask(): Promise<any> {
-        const res = await fetch(`https://mvc-todo-api.herokuapp.com/task-lists/${this.props.tasklistId}/tasks/${this.props.taskId}`, {
+        const res = await fetch(`${this.url}/task-lists/${this.props.tasklistId}/tasks/${this.props.taskId}`, {
             method: 'DELETE'
         });
         this.props.fetchTasks(this.props.tasklistId);
