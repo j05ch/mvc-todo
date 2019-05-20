@@ -12,7 +12,7 @@ yarn dev
 ```
 or
 
-build und run with 
+build and run with 
 ```sh
 yarn start
 ```
