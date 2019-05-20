@@ -2,7 +2,7 @@
 Todo list frontend in React. Works together with my MVC-Todo-API.
 
 Install with 
-```sh`
+```sh
 yarn install
 ```
 
