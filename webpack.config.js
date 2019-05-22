@@ -32,7 +32,7 @@ module.exports = {
             template: 'src/index.html'
         }),
         new webpack.DefinePlugin({
-            API_URL: JSON.stringify(process.env.API_URL)
+            'process.env.API_URL': JSON.stringify(process.env.API_URL)
         })
     ]
 };
