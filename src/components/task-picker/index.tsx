@@ -18,28 +18,28 @@ interface Props {
     fetchTasks: (id: number) => void
 }
 
-export default class TaskPicker extends React.Component<Props, {}> {
-    render(): React.ReactNode {
-        return <>
-            <h2>Task</h2>
-            {
-                this.props.taskListId !== 0 && this.props.tasks.map(
-                    task =>
+const TaskPicker: React.FunctionComponent<Props> = (props: Props) => {
+    return <>
+        <h2>Task</h2>
+        {
+            props.taskListId !== 0 && props.tasks.map(
+                task =>
                     <Task
                         task={task}
                         key={task.id}
                         taskId={task.id}
-                        tasklistId={this.props.taskListId}
-                        fetchTasks={this.props.fetchTasks}
+                        tasklistId={props.taskListId}
+                        fetchTasks={props.fetchTasks}
                     />
-                    )
-            }
-            {
-                this.props.taskListId !== 0 && <TaskInputField
-                    tasklistId={this.props.taskListId}
-                    fetchTasks={this.props.fetchTasks}
-                />
-            }
-        </>
-    }
-}
+            )
+        }
+        {
+            props.taskListId !== 0 && <TaskInputField
+                tasklistId={props.taskListId}
+                fetchTasks={props.fetchTasks}
+            />
+        }
+    </>
+};
+
+export default TaskPicker;

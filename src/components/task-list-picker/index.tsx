@@ -16,42 +16,42 @@ interface Props {
     fetchTaskLists: () => void
 }
 
-export default class TaskListPicker extends React.Component<Props, {}> {
+const TaskListPicker: React.FunctionComponent<Props> = (props: Props) => {
 
-    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+    const url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
-    async deleteTaskList(id: number): Promise<any> {
-        const res = await fetch(`${this.url}/task-lists/${id}`, {
+    async function deleteTaskList(id: number): Promise<any> {
+        const res = await fetch(`${url}/task-lists/${id}`, {
             method: 'DELETE'
         });
         return await res.json()
-            .then(() => this.props.fetchTaskLists());
+            .then(() => props.fetchTaskLists());
     }
 
-    render(): React.ReactNode {
-        return <>
-            <h2>List</h2>
-            {
-                this.props.taskLists.map((taskList: TaskList) =>
-                    <p key={taskList.id}
-                       className={taskList.id === this.props.chosenList ? 'chosen-list' : ''}
-                       onClick={
-                           () => {
-                               this.props.chooseList(taskList.id)
-                           }
-                       }>
-                        {taskList.title}
-                        <button
-                            className="btn btn-dark"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                this.deleteTaskList(taskList.id);
-                            }}>
-                            Delete
-                        </button>
-                    </p>)
-            }
-            <TaskListInputField fetchTaskLists={this.props.fetchTaskLists} />
-        </>
-    }
-}
+    return <>
+        <h2>List</h2>
+        {
+            props.taskLists.map((taskList: TaskList) =>
+                <p key={taskList.id}
+                   className={taskList.id === props.chosenList ? 'chosen-list' : ''}
+                   onClick={
+                       () => {
+                           props.chooseList(taskList.id)
+                       }
+                   }>
+                    {taskList.title}
+                    <button
+                        className="btn btn-dark"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            deleteTaskList(taskList.id);
+                        }}>
+                        Delete
+                    </button>
+                </p>)
+        }
+        <TaskListInputField fetchTaskLists={props.fetchTaskLists} />
+    </>
+};
+
+export default TaskListPicker;

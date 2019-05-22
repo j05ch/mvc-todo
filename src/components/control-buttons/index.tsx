@@ -6,11 +6,11 @@ interface Props {
     deleteTask: () => void
 }
 
-export default class ControlButtons extends React.Component<Props, {}> {
-    render(): React.ReactNode {
-        return <span>
-            <button className="btn btn-dark" onClick={this.props.checkTask}>{this.props.buttonText}</button>
-            <button className="btn btn-dark" onClick={this.props.deleteTask}>Delete</button>
+const ControlButtons: React.FunctionComponent<Props> = (props: Props) => {
+    return <span>
+            <button className="btn btn-dark" onClick={props.checkTask}>{props.buttonText}</button>
+            <button className="btn btn-dark" onClick={props.deleteTask}>Delete</button>
         </span>
-    }
 };
+
+export default ControlButtons;
