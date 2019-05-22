@@ -43,7 +43,6 @@ export default class App extends React.Component<{}, State> {
     }
 
     render(): React.ReactNode {
-        console.log(process.env.NODE_ENV);
         const tasks = this.state.tasks;
         return <div className="container">
             <div className="task-list-picker">

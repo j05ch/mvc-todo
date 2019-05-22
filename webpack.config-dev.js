@@ -1,6 +1,6 @@
 const {resolve} = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: {
@@ -31,8 +31,6 @@ module.exports = {
             title: `Joschi's To-Do️`,
             template: 'src/index.html'
         }),
-        new webpack.DefinePlugin({
-            API_URL: JSON.stringify(process.env.API_URL)
-        })
+        new Dotenv()
     ]
 };
