@@ -1,62 +1,54 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import './styles.css';
 
 interface Props {
     fetchTaskLists: () => void
 }
 
-interface State {
-    taskListValue?: string,
-}
+const TaskListInputField: React.FunctionComponent<Props> = (props: Props) => {
 
-export default class TaskListInputField extends React.Component<Props, State> {
-    readonly state = {
-        taskListValue: ''
-    };
+    const [taskListValue, setTaskListValue] = useState<string>('');
 
-    url = process.env.API_URL;
+    const url: string = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
-    async addTaskList(): Promise<any> {
-        const res = await fetch(`${this.url}/task-lists`, {
+    async function addTaskList(): Promise<any> {
+        const res = await fetch(`${url}/task-lists`, {
             method: 'POST',
             body: JSON.stringify({
-                title: this.state.taskListValue
+                title: taskListValue
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        await this.props.fetchTaskLists();
+        await props.fetchTaskLists();
         return await res.json();
     }
 
-    handleChange(event: any) {
+    function handleChange(event: any) {
         const target = event.target;
         const value = target.value;
-        const name = target.name;
-        this.setState({[name]: value});
+        setTaskListValue(value);
     }
 
-    handleSubmit(event: any) {
-        this.addTaskList();
-        this.setState({
-            taskListValue: ''
-        });
+    function handleSubmit(event: any) {
+        addTaskList();
+        setTaskListValue('');
         event.preventDefault();
     }
 
-    render(): React.ReactNode {
-        return <form onSubmit={(e) => this.handleSubmit(e)}>
-            <input className="input-field"
-                   name="taskListValue"
-                   type="text" value={this.state.taskListValue}
-                   onChange={(e) => this.handleChange(e)}
-                   placeholder="Task list"
-            />
-            <input className="submit-btn btn btn-primary"
-                   type="submit"
-                   value="Add list"
-            />
-        </form>
-    }
+    return <form onSubmit={(e) => handleSubmit(e)}>
+        <input className="input-field"
+               name="taskListValue"
+               type="text" value={taskListValue}
+               onChange={(e) => handleChange(e)}
+               placeholder="Task list"
+        />
+        <input className="submit-btn btn btn-primary"
+               type="submit"
+               value="Add list"
+        />
+    </form>
 };
+
+export default TaskListInputField;

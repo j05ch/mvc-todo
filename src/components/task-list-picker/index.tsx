@@ -18,7 +18,7 @@ interface Props {
 
 const TaskListPicker: React.FunctionComponent<Props> = (props: Props) => {
 
-    const url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+    const url: string = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
     async function deleteTaskList(id: number): Promise<any> {
         const res = await fetch(`${url}/task-lists/${id}`, {

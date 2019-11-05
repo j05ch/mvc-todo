@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { TaskItem } from '../task-picker';
 import ControlButtons from '../control-buttons';
 import './styles.css';
@@ -6,56 +6,46 @@ import './styles.css';
 interface Props {
     task: TaskItem,
     taskId: number,
-    tasklistId: number,
+    taskListId: number,
     fetchTasks: (id: number) => void
 }
 
-interface State {
-    isChecked: boolean,
-    buttonText: string
-}
+const Task: React.FunctionComponent<Props> = (props: Props) => {
 
-export default class Task extends React.Component<Props, State> {
+    const [isChecked, setIsChecked] = useState<boolean>(false);
+    const [buttonText, setButtonText] = useState<string>('Done');
 
-    readonly state = {
-        isChecked: false,
-        buttonText: 'Done'
-    };
+    const url: string = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
-    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
-
-    switchChecked(): void {
-        this.setState({
-                isChecked: !this.state.isChecked,
-                buttonText: this.state.buttonText === 'Done' ? 'Redo' : 'Done'
-            }
-        );
+    function switchChecked(): void {
+        setIsChecked(!isChecked);
+        setButtonText(buttonText === 'Done' ? 'Redo' : 'Done');
     }
 
-    async deleteTask(): Promise<any> {
-        const res = await fetch(`${this.url}/task-lists/${this.props.tasklistId}/tasks/${this.props.taskId}`, {
+    async function deleteTask(): Promise<any> {
+        const res = await fetch(`${url}/task-lists/${props.taskListId}/tasks/${props.taskId}`, {
             method: 'DELETE'
         });
-        this.props.fetchTasks(this.props.tasklistId);
+        props.fetchTasks(props.taskListId);
         return await res.json();
     }
 
-    render(): React.ReactNode {
-        const nameStyles: string = this.state.isChecked ? 'name checked' : 'name';
-        const descriptionStyles: string = this.state.isChecked ? 'description checked' : 'description';
+    const nameStyles: string = isChecked ? 'name checked' : 'name';
+    const descriptionStyles: string = isChecked ? 'description checked' : 'description';
 
-        return <div>
+    return <div>
                 <span className={nameStyles}>
-                    {this.props.task.title} <ControlButtons checkTask={() => this.switchChecked()}
-                                                            buttonText={this.state.buttonText}
-                                                            deleteTask={() => this.deleteTask()}
+                    {props.task.title} <ControlButtons checkTask={() => switchChecked()}
+                                                            buttonText={buttonText}
+                                                            deleteTask={() => deleteTask()}
                 />
                 </span>
-            <p>
+        <p>
                 <span className={descriptionStyles}>
-                    {this.props.task.description}
+                    {props.task.description}
                 </span>
-            </p>
-        </div>
-    }
+        </p>
+    </div>
 };
+
+export default Task;

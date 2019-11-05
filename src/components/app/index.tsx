@@ -1,57 +1,48 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskPicker, { TaskItem } from '../task-picker';
 import TaskListPicker, { TaskList } from '../task-list-picker';
 import './styles.css';
 
-interface State {
-    tasks: Array<TaskItem>,
-    chosenList: number,
-    taskLists: Array<TaskList>
-}
+const App: React.FunctionComponent<{}> = () => {
 
-export default class App extends React.Component<{}, State> {
+    const [tasks, setTasks] = useState<Array<TaskItem>>([]);
+    const [chosenList, setChosenList] = useState<number>(0);
+    const [taskLists, setTaskLists] = useState<Array<TaskList>>([]);
 
-    readonly state = {
-        tasks: [],
-        chosenList: 0,
-        taskLists: []
-    };
+    const url: string = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
-    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
-
-    async chooseList(id: number): Promise<void> {
-        await this.fetchTasks(id);
-        await this.setState({chosenList: id})
+    async function chooseList(id: number): Promise<void> {
+        await fetchTasks(id);
+        await setChosenList(id);
     }
 
-    async fetchTaskLists(): Promise<void> {
-        const res = await fetch(`${this.url}/task-lists`);
+    async function fetchTaskLists(): Promise<void> {
+        const res = await fetch(`${url}/task-lists`);
         const json = await res.json();
-        this.setState({chosenList: 0});
-        this.setState({taskLists: json});
+        setChosenList(0);
+        setTaskLists(json);
     }
 
-    async fetchTasks(id: number): Promise<void> {
-        const res = await fetch(`${this.url}/task-lists/${id}/tasks`);
+    async function fetchTasks(id: number): Promise<void> {
+        const res = await fetch(`${url}/task-lists/${id}/tasks`);
         const json = await res.json();
-        this.setState({tasks: json});
+        setTasks(json);
     }
 
-    componentDidMount(): void {
-        this.fetchTaskLists();
-        console.log(this.url)
-    }
+    useEffect(() => {
+        fetchTaskLists();
+    },[]);
 
-    render(): React.ReactNode {
-        const tasks = this.state.tasks;
-        return <div className="container">
-            <div className="task-list-picker">
-                <TaskListPicker taskLists={this.state.taskLists} chooseList={this.chooseList.bind(this)}
-                                chosenList={this.state.chosenList} fetchTaskLists={this.fetchTaskLists.bind(this)} />
-            </div>
-            <div className="task-picker">
-                <TaskPicker tasks={tasks} taskListId={this.state.chosenList} fetchTasks={this.fetchTasks.bind(this)} />
-            </div>
+    return <div className="container">
+        <div className="task-list-picker">
+            <TaskListPicker taskLists={taskLists} chooseList={chooseList}
+                            chosenList={chosenList} fetchTaskLists={fetchTaskLists} />
         </div>
-    }
-}
+        <div className="task-picker">
+            <TaskPicker tasks={tasks} taskListId={chosenList}
+                        fetchTasks={fetchTasks} />
+        </div>
+    </div>
+};
+
+export default App;

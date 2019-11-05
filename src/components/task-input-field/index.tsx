@@ -1,76 +1,71 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import './styles.css';
 
 interface Props {
-    tasklistId: number,
+    taskListId: number,
     fetchTasks: (id: number) => void
 }
 
-interface State {
-    taskValue?: string,
-    taskDescription?: string
-}
+const TaskInputField: React.FunctionComponent<Props> = (props: Props) => {
 
-export default class TaskInputField extends React.Component<Props, State> {
-    readonly state = {
-        taskValue: '',
-        taskDescription: ''
-    };
+    const [taskValue, setTaskValue] = useState<string>('');
+    const [taskDescription, setTaskDescription] = useState<string>('');
 
-    url = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
+    const url: string = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
-    async addTask(): Promise<any> {
-        const res = await fetch(`${this.url}/task-lists/${this.props.tasklistId}/tasks/`, {
+    async function addTask(): Promise<any> {
+        const res = await fetch(`${url}/task-lists/${props.taskListId}/tasks/`, {
             method: 'POST',
             body: JSON.stringify({
-                title: this.state.taskValue,
-                description: this.state.taskDescription,
+                title: taskValue,
+                description: taskDescription,
                 status: 'open'
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        this.props.fetchTasks(this.props.tasklistId);
+        props.fetchTasks(props.taskListId);
         return await res.json();
     }
 
-    handleChange(event: any) {
+    function handleChange(event: any) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({[name]: value});
+        if (name === 'taskValue')
+            setTaskValue(value);
+        if (name === 'taskDescription')
+            setTaskDescription(value);
     }
 
-    handleSubmit(event: any) {
-        this.addTask();
-        this.setState({
-            taskValue: '',
-            taskDescription: ''
-        });
+    function handleSubmit(event: any) {
+        addTask();
+        setTaskValue('');
+        setTaskDescription('');
         event.preventDefault();
     }
 
-    render(): React.ReactNode {
-        return <form onSubmit={(e) => this.handleSubmit(e)}>
-            <input className="input-field"
-                   name="taskValue"
-                   type="text"
-                   value={this.state.taskValue}
-                   onChange={(e) => this.handleChange(e)}
-                   placeholder="Task"
-            />
-            <input className="input-field"
-                   name="taskDescription"
-                   type="text"
-                   value={this.state.taskDescription}
-                   onChange={(e) => this.handleChange(e)}
-                   placeholder="Description"
-            />
-            <input className="submit-btn btn btn-primary"
-                   type="submit"
-                   value="Add task"
-            />
-        </form>
-    }
+    return <form onSubmit={(e) => handleSubmit(e)}>
+        <input className="input-field"
+               name="taskValue"
+               type="text"
+               value={taskValue}
+               onChange={(e) => handleChange(e)}
+               placeholder="Task"
+        />
+        <input className="input-field"
+               name="taskDescription"
+               type="text"
+               value={taskDescription}
+               onChange={(e) => handleChange(e)}
+               placeholder="Description"
+        />
+        <input className="submit-btn btn btn-primary"
+               type="submit"
+               value="Add task"
+        />
+    </form>
 };
+
+export default TaskInputField;

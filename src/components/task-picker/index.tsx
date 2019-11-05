@@ -28,14 +28,14 @@ const TaskPicker: React.FunctionComponent<Props> = (props: Props) => {
                         task={task}
                         key={task.id}
                         taskId={task.id}
-                        tasklistId={props.taskListId}
+                        taskListId={props.taskListId}
                         fetchTasks={props.fetchTasks}
                     />
             )
         }
         {
             props.taskListId !== 0 && <TaskInputField
-                tasklistId={props.taskListId}
+                taskListId={props.taskListId}
                 fetchTasks={props.fetchTasks}
             />
         }
