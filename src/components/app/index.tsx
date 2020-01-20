@@ -9,6 +9,10 @@ const App: React.FunctionComponent<{}> = () => {
     const [chosenList, setChosenList] = useState<number>(0);
     const [taskLists, setTaskLists] = useState<Array<TaskList>>([]);
 
+    useEffect(() => {
+        fetchTaskLists();
+    },[]);
+
     const url: string = process.env.API_URL ? process.env.API_URL : 'http://localhost:3000';
 
     async function chooseList(id: number): Promise<void> {
@@ -28,10 +32,6 @@ const App: React.FunctionComponent<{}> = () => {
         const json = await res.json();
         setTasks(json);
     }
-
-    useEffect(() => {
-        fetchTaskLists();
-    },[]);
 
     return <div className="container">
         <div className="task-list-picker">
